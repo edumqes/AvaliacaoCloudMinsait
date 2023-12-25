@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: app
+  name: app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      io.kompose.service: app
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.network/avaliacao-network: "true"
+        io.kompose.service: app
+    spec:
+      containers:
+        - env:
+            - name: DATABASE_PASSWORD
+              value: pp_user
+            - name: DATABASE_URL
+              value: jdbc:mysql://db:3306/users_db
+            - name: DATABASE_USERNAME
+              value: pp_user
+          image: edumqes/openjdk:v1
+          name: app
+          ports:
+            - containerPort: 8080
+          resources: {}
+      restartPolicy: Always
+status: {}

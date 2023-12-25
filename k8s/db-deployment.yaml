@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: db
+  name: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: db
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.network/avaliacao-network: "true"
+        io.kompose.service: db
+    spec:
+      containers:
+        - env:
+            - name: MYSQL_DATABASE
+              value: users_db
+            - name: MYSQL_PASSWORD
+              value: pp_user
+            - name: MYSQL_ROOT_PASSWORD
+              value: root_password
+            - name: MYSQL_USER
+              value: pp_user
+          image: mysql
+          name: db
+          ports:
+            - containerPort: 3306
+          resources: {}
+      restartPolicy: Always
+status: {}
